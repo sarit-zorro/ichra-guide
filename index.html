@@ -1,0 +1,710 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your A to Zorro Guide to All Things ICHRA</title>
+<style>
+  @font-face{font-family:"TWK Lausanne";font-style:normal;font-weight:350;font-display:swap;src:url("assets/fonts/TWKLausanne-350.woff2") format("woff2")}
+  @font-face{font-family:"TWK Lausanne";font-style:normal;font-weight:400;font-display:swap;src:url("assets/fonts/TWKLausanne-400.woff2") format("woff2")}
+  @font-face{font-family:"TWK Lausanne";font-style:normal;font-weight:500;font-display:swap;src:url("assets/fonts/TWKLausanne-500.woff2") format("woff2")}
+  @font-face{font-family:"TWK Lausanne";font-style:normal;font-weight:600;font-display:swap;src:url("assets/fonts/TWKLausanne-600.woff2") format("woff2")}
+  @font-face{font-family:"TWK Lausanne";font-style:normal;font-weight:700;font-display:swap;src:url("assets/fonts/TWKLausanne-700.woff2") format("woff2")}
+  @font-face{font-family:"Inter";font-style:normal;font-weight:100 900;font-display:swap;src:url("assets/fonts/InterVariable.woff2") format("woff2")}
+
+  :root{
+    --z-black:#1A1721; --z-slate:#312E37; --z-stone:#676979; --z-iris:#8033EF;
+    --z-white:#FFFFFF; --z-grey:#F7F8FB; --z-dove:#EDEFF6; --z-lilac:#E0E3FE;
+    --tag-bg:#E0E3FE; --tag-ink:#5B34C6;
+    --z-accent:linear-gradient(90deg,#12B5A8 0%,#3B82F6 55%,#8033EF 100%);
+    --font:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    --font-display:"TWK Lausanne","Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    --content-max:1120px; --gutter:clamp(24px,6vw,96px);
+    --rule:#EEF2FA; --stroke:#DDE1EC;
+    --bg:var(--z-white); --text:var(--z-black); --text-soft:var(--z-slate); --muted:var(--z-stone);
+    --surface:var(--z-white); --card-shadow:0 14px 40px rgba(26,23,33,.10),0 2px 6px rgba(26,23,33,.05);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-snap-type:y mandatory}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);font-weight:350;
+    line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  h1,h2,h3{margin:0;font-family:var(--font-display);font-weight:700;letter-spacing:-.02em;line-height:1.12}
+  p{margin:0 0 12px}
+  strong{font-weight:600}
+  a{color:var(--z-iris)}
+  img{max-width:100%;display:block}
+
+  .sec{position:relative;width:100%;overflow:hidden;background:var(--bg);
+    scroll-snap-align:start;scroll-snap-stop:always;min-height:100vh;
+    display:flex;flex-direction:column;justify-content:center}
+  .sec-inner{position:relative;max-width:var(--content-max);margin:0 auto;
+    padding:clamp(72px,9vw,120px) var(--gutter)}
+  .sec--dark{--bg:var(--z-black);--text:#F5F6FA;--text-soft:#C7CBD6;--muted:#9A9DAC;
+    --surface:rgba(255,255,255,.05);--stroke:rgba(255,255,255,.14);background:var(--z-black);
+    color:var(--text)}   /* re-evaluate var(--text) here — color is inherited as a resolved value,
+      not a live var(), so without this every plain <li>/<p>/<span> in a dark section silently
+      inherits body's light-theme black instead of picking up the dark override */
+
+  .logo{height:26px;width:auto;margin-bottom:clamp(28px,6vw,56px)}
+
+  .eyebrow{color:var(--z-iris);font-weight:600;letter-spacing:.01em;font-size:14.5px;margin-bottom:12px}
+  .sec--dark .eyebrow{color:#8FE3D6}
+  .lede{font-size:18px;color:var(--text-soft);max-width:60ch}
+  h1.display{font-size:clamp(40px,5.8vw,66px);letter-spacing:-.03em;color:var(--text)}
+  h2.title{font-size:clamp(28px,3.8vw,42px);letter-spacing:-.025em;margin-bottom:14px;color:var(--text)}
+  .muted{color:var(--muted)}
+  .body-copy{color:var(--text-soft);font-size:17px;max-width:62ch}
+  .foot{margin-top:clamp(48px,8vw,80px);font-size:13px;color:var(--muted)}
+
+  /* two-column header: copy left, photo right. Stacks under 900px. */
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(32px,5vw,64px);align-items:start}
+  .hero-grid .photo-wrap{align-self:start}
+  .photo{border-radius:12px;overflow:hidden;box-shadow:var(--card-shadow)}
+  .photo img{width:100%;height:100%;object-fit:cover;display:block;aspect-ratio:4/3}
+  @media screen and (max-width:900px){.hero-grid{grid-template-columns:1fr}.hero-grid .photo-wrap{order:-1}}
+
+  /* cards */
+  .card{background:var(--z-white);border-radius:12px;padding:clamp(26px,3vw,40px);box-shadow:var(--card-shadow)}
+  .card--dark{background:var(--z-slate);color:#F5F6FA;box-shadow:none;border:1px solid rgba(255,255,255,.08)}
+  .card--dark .body-copy{color:#C7CBD6}
+  .card--dark .eyebrow{color:#B79CF2}
+  /* same var(--text-soft)/var(--text) re-evaluation gotcha as .sec--dark: this card can sit inside
+     a LIGHT .sec, so --text-soft/--text still resolve to the light theme unless pinned here */
+  .card--dark .dot-list span{color:#C7CBD6}
+  .card--dark .dot-list b{color:#F5F6FA}
+  .card--glass{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+
+  /* grid utility */
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,3.4vw,40px)}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,2.6vw,28px)}
+  @media screen and (max-width:900px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+  /* stats */
+  .stat-grid{display:grid;gap:18px}
+  .stat-grid--top{grid-template-columns:1fr}
+  .stat-grid--row{grid-template-columns:repeat(3,1fr);margin-top:18px}
+  .stat-grid--row4{grid-template-columns:repeat(4,1fr);margin-top:18px}
+  @media screen and (max-width:700px){.stat-grid--row,.stat-grid--row4{grid-template-columns:repeat(2,1fr)}}
+  @media screen and (max-width:420px){.stat-grid--row,.stat-grid--row4{grid-template-columns:1fr}}
+  .stat{background:var(--z-white);border-radius:10px;box-shadow:var(--card-shadow);padding:24px}
+  .stat--hero{padding:32px 34px}
+  .stat__value{font-family:var(--font-display);font-weight:700;color:var(--z-iris);
+    letter-spacing:-.02em;line-height:1.05;font-size:clamp(24px,2.8vw,32px)}
+  .stat--hero .stat__value{font-size:clamp(28px,3.6vw,38px)}
+  .stat__label{font-size:14.5px;color:var(--muted);margin-top:8px;line-height:1.4}
+
+  /* table */
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:10px;box-shadow:var(--card-shadow);background:#fff}
+  table{width:100%;border-collapse:collapse;min-width:520px}
+  thead th{text-align:left;font-weight:600;font-size:14px;color:var(--text);padding:20px 22px 14px;
+    border-bottom:1px solid var(--stroke)}
+  thead th.col-ichra{color:var(--z-iris)}
+  tbody td{padding:15px 22px;border-bottom:1px solid var(--rule);font-size:15.5px;color:var(--text-soft)}
+  tbody tr:last-child td{border-bottom:none}
+  td.ichra-val{color:var(--z-iris);font-weight:600}
+  .misc-table thead th:first-child{width:44%}
+  .misc-table thead th:last-child{color:var(--z-iris)}
+  /* Long-prose 2-col table: sideways scroll is a poor fit here (unlike the short-value ICHRA
+     comparison table above it) — measured scrollLeft landing at its max offset on load, clipping
+     the whole first column off-screen. Reflow to stacked blocks instead of chasing the scroll bug. */
+  @media screen and (max-width:760px){
+    .misc-table table,.misc-table thead,.misc-table tbody,.misc-table tr,.misc-table th,.misc-table td{
+      display:block;width:auto!important;min-width:0}
+    .misc-table thead{display:none}
+    .misc-table tbody tr{padding:16px 20px;border-bottom:1px solid var(--rule)}
+    .misc-table tbody tr:last-child{border-bottom:none}
+    .misc-table td{padding:4px 0;border-bottom:none}
+    .misc-table td:first-child{font-weight:600;color:var(--text)}
+    .misc-table td:last-child::before{content:"Fact — ";color:var(--z-iris);font-weight:600}
+  }
+
+  /* pills / tags */
+  .pill{display:inline-flex;align-items:center;font-size:14px;font-weight:600;letter-spacing:.01em;
+    padding:9px 18px;border-radius:999px;background:var(--tag-bg);color:var(--tag-ink);line-height:1}
+  .pill-row{display:flex;flex-wrap:wrap;gap:12px;margin:20px 0 10px}
+  .pill--onDark{background:rgba(255,255,255,.08);color:#E6E1FB}
+
+  /* mini "mock" white card nested inside a dark difference card */
+  .mock{background:#fff;border-radius:10px;padding:20px 22px;color:var(--z-black)}
+  .mock h4{font-family:var(--font-display);font-size:15px;font-weight:700;margin:0 0 14px;color:var(--z-black)}
+  .mock .mock-row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;font-size:14px;color:var(--z-slate);border-bottom:1px solid var(--rule)}
+  .mock .mock-row:last-child{border-bottom:none}
+  .mock .mock-figure{font-family:var(--font-display);font-weight:700;font-size:21px}
+  .mock .mock-figure.iris{color:var(--z-iris)}
+  .mock ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+  .mock ul li{background:var(--z-grey);border-radius:8px;padding:11px 13px;font-size:14px;color:var(--text-soft);display:flex;align-items:center;gap:9px}
+  .mock ul li img.ico--sm{flex:none}
+  .mock table{min-width:0}
+  .mock thead th{padding:6px 8px;font-size:11px}
+  .mock tbody td{padding:8px 8px;font-size:12.5px}
+  .mock .status-ok{color:var(--z-iris);font-weight:600}
+  .mock .status-no{color:var(--muted)}
+
+  /* bulleted list — sanctioned icon glyph instead of a plain dot */
+  .dot-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:20px}
+  .dot-list li{display:flex;gap:16px;align-items:flex-start}
+  .dot-list .ico{width:24px;height:24px;flex:none;margin-top:1px}
+  .dot-list b{display:block;font-size:15.5px;color:var(--text);margin-bottom:4px}
+  .dot-list span{font-size:14.5px;color:var(--text-soft)}
+
+  /* small inline icon, e.g. next to an eyebrow or inside a dense mock card */
+  .ico{display:inline-block;width:20px;height:20px;vertical-align:-4px}
+  .ico--sm{width:15px;height:15px;vertical-align:-2.5px}
+  .eyebrow-ico{display:inline-flex;align-items:center;gap:8px}
+
+  /* gradient top-accent strip — the one recurring "bold" device, used sparingly on hero cards only */
+  .accent-top{position:relative}
+  .accent-top::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--z-accent);border-radius:inherit;z-index:1}
+
+  /* poster-scale hero number — used ONCE per guide (the single biggest stat), never on dense pages */
+  .stat--poster{background:none;box-shadow:none;padding:0;text-align:left}
+  .stat--poster .stat__value{font-size:clamp(56px,9vw,108px);line-height:.94;letter-spacing:-.03em;
+    background:var(--z-accent);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat--poster .stat__label{font-size:15px;color:var(--muted);margin-top:10px}
+
+  /* scroll reveal — fade + slight lift/scale, native IntersectionObserver driven (no animation lib) */
+  .reveal{opacity:0;transform:translateY(26px) scale(.985);
+    transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);
+    transition-delay:var(--d,0s)}
+  .reveal.in{opacity:1;transform:translateY(0) scale(1)}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+  /* feature card grid used by "identifying provider" page */
+  .feat-list{display:grid;grid-template-columns:1fr 1fr;gap:24px 48px}
+  @media screen and (max-width:760px){.feat-list{grid-template-columns:1fr}}
+
+  /* faq */
+  .faq-card{background:var(--z-white);border-radius:10px;box-shadow:var(--card-shadow);padding:24px 26px}
+  .faq-card b{display:block;font-size:15.5px;margin-bottom:8px;color:var(--text)}
+  .faq-card span{font-size:14.5px;color:var(--text-soft)}
+  .faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media screen and (max-width:760px){.faq-grid{grid-template-columns:1fr}}
+
+  .cta-band{margin-top:28px;background:var(--z-iris);border-radius:12px;padding:26px 32px;color:#fff}
+  .cta-band b{display:block;font-size:16px;margin-bottom:6px}
+  .cta-band span{font-size:15px;opacity:.92}
+  .cta-band a{color:#fff;text-decoration:underline}
+
+  /* flow diagram (step 5) */
+  .flow{display:flex;align-items:center;justify-content:space-between;position:relative;margin-top:28px;padding:0 10px}
+  .flow::before{content:"";position:absolute;left:10%;right:10%;top:22px;height:1px;background:rgba(255,255,255,.2);z-index:0}
+  .flow__node{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;flex:1}
+  .flow__dot{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.16)}
+  .flow__node--mid .flow__dot{width:56px;height:56px;background:var(--z-accent)}
+  .flow__node span{font-size:13.5px;color:#C7CBD6;text-align:center}
+
+  /* ghost gradient-ring decoration (cover / back cover) */
+  .ghost{position:absolute;border-radius:18px;pointer-events:none;z-index:0}
+  .ghost::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;background:var(--z-accent);
+    -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+  .ghost--a{width:260px;height:180px;top:-40px;right:-6%}
+  .ghost--b{width:200px;height:260px;bottom:-60px;left:2%}
+  @media screen and (max-width:760px){.ghost--a,.ghost--b{opacity:.5}}
+
+  /* cover / back cover */
+  .cover-inner{min-height:min(92vh,900px);display:flex;align-items:center}
+  .cover-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;width:100%;position:relative;z-index:1}
+  .cover-copy h1{font-size:clamp(38px,6.2vw,64px);letter-spacing:-.03em;color:#fff}
+  .cover-copy h1 .accent{background:var(--z-accent);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .cover-rule{width:64px;height:4px;border-radius:2px;background:var(--z-accent);margin:26px 0 30px}
+  .cover-photo{border-radius:14px;overflow:hidden;max-width:340px;margin-left:auto;box-shadow:0 24px 60px rgba(0,0,0,.4)}
+  .cover-photo img{aspect-ratio:3/4;object-fit:cover;width:100%}
+  @media screen and (max-width:760px){.cover-grid{grid-template-columns:1fr}.cover-photo{margin:0 auto;max-width:260px}}
+
+  /* introduction quote card */
+  .quote-card{display:flex;gap:20px;align-items:flex-start;margin-top:36px}
+  .avatar{width:64px;height:64px;border-radius:50%;object-fit:cover;flex:none;background:var(--z-accent)}
+  .quote-name{font-weight:600;font-size:17px}
+  .quote-title{color:#B79CF2;font-size:14px;margin-bottom:12px}
+  .quote-sig{margin-top:16px;font-style:italic;color:#C7CBD6;font-size:15px}
+
+  /* toc */
+  .toc-list{list-style:none;margin:28px 0 0;padding:0;display:flex;flex-direction:column;gap:22px}
+  .toc-list li{display:flex;gap:20px;align-items:baseline;font-size:16px}
+  .toc-list b{color:var(--z-iris);font-family:var(--font-display);font-size:17px;min-width:24px}
+
+  /* nav dots (visual only, decorative like the real deck) */
+  .jumpnav{position:fixed;right:14px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:9px;z-index:50}
+  .jumpnav a{width:7px;height:7px;border-radius:50%;background:#D2D6E4;display:block}
+  .jumpnav a.on{background:var(--z-iris)}
+  @media screen and (max-width:900px){.jumpnav{display:none}}
+</style>
+</head>
+<body>
+<nav class="jumpnav" aria-hidden="true">
+  <a class="on" href="#cover"></a><a href="#toc"></a><a href="#intro"></a><a href="#whatis"></a>
+  <a href="#right4you"></a><a href="#step1"></a><a href="#step2"></a><a href="#step3"></a>
+  <a href="#step4"></a><a href="#step5"></a><a href="#step6"></a><a href="#identify"></a>
+  <a href="#whatabout"></a><a href="#faq"></a><a href="#thanks"></a>
+</nav>
+
+<!-- 0 — COVER -->
+<section class="sec sec--dark" id="cover">
+  <div class="ghost ghost--a"></div><div class="ghost ghost--b"></div>
+  <div class="sec-inner cover-inner">
+    <div class="cover-grid">
+      <div class="cover-copy">
+        <img class="logo" src="assets/img/zorro-logo-full.svg" alt="Zorro">
+        <h1>Your <span class="accent">A to Z</span>orro Guide to All Things ICHRA</h1>
+        <div class="cover-rule"></div>
+      </div>
+      <div class="cover-photo accent-top"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=600&q=80" alt=""></div>
+    </div>
+  </div>
+</section>
+
+<!-- 1 — CONTENTS -->
+<section class="sec sec--dark" id="toc">
+  <div class="sec-inner hero-grid">
+    <div>
+      <img class="logo" src="assets/img/zorro-logo-full.svg" alt="Zorro">
+      <h2 class="title">Contents</h2>
+      <ol class="toc-list reveal">
+        <li><b>2</b> Introduction</li>
+        <li><b>3</b> What is ICHRA?</li>
+        <li><b>4</b> Is ICHRA Right for You?</li>
+        <li><b>5</b> How ICHRA Works</li>
+        <li><b>11</b> Identifying the Right ICHRA Partner</li>
+        <li><b>12</b> What About? (Your Pressing Questions and Misconceptions Addressed)</li>
+      </ol>
+      <p class="foot">1&nbsp;&nbsp;Your A to Zorro Guide to All Things ICHRA</p>
+    </div>
+    <div class="photo-wrap"><div class="photo"><img src="https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=600&q=80" alt=""></div></div>
+  </div>
+</section>
+
+<!-- 2 — INTRODUCTION -->
+<section class="sec sec--dark" id="intro">
+  <div class="sec-inner" style="max-width:820px">
+    <img class="logo" src="assets/img/zorro-logo-full.svg" alt="Zorro">
+    <h2 class="title">Introduction</h2>
+    <p class="body-copy" style="max-width:none">It's a scenario we're all too accustomed to: anxiously awaiting annual premium hikes (aka. renewals) while figuring out how to support a diverse and often disparate workforce with a one-size-fits-few health plan. Enter the Individual Coverage Health Reimbursement Arrangement (ICHRA). ICHRA was born under the recognition that employers and their teams deserve more when it comes to their healthcare benefits. More control, more choice, and more peace of mind. So whether you're a benefits broker looking to usher your clients into a more modern and affordable benefits offering, or an employer looking to give your workforce expanded choice while reigning in budget, we hope this guide sheds light on how ICHRA can deliver.</p>
+    <div class="card card--glass">
+      <div class="quote-card reveal">
+        <img class="avatar" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&q=80" alt="Guy Ezekiel">
+        <div>
+          <div class="quote-name">Guy Ezekiel</div>
+          <div class="quote-title">CEO &amp; Co-Founder</div>
+          <p class="body-copy" style="max-width:none;margin-bottom:0">For countless workers across the country, the burden of healthcare costs has become overwhelming. At Zorro, we're here to change that. With our cutting-edge platform and innovative features, we're revolutionizing the way people plan for, pay for, save for, and experience health insurance and services. As you explore ICHRA to deliver greater personalization and budget control, Zorro is committed to being a trusted partner, delivering the benefits people want at a price they can afford.</p>
+          <p class="quote-sig">Guy Ezekiel</p>
+        </div>
+      </div>
+    </div>
+    <p class="foot">2&nbsp;&nbsp;Your A to Zorro Guide to All Things ICHRA</p>
+  </div>
+</section>
+
+<!-- 3 — WHAT IS ICHRA -->
+<section class="sec" id="whatis">
+  <div class="sec-inner">
+    <div class="hero-grid reveal">
+      <div>
+        <p class="eyebrow">ICHRA is more than an acronym.</p>
+        <h1 class="display">What is ICHRA?</h1>
+      </div>
+      <div class="photo-wrap"><div class="photo"><img src="https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=600&q=80" alt=""></div></div>
+    </div>
+    <p class="body-copy" style="margin-top:18px;max-width:72ch">Introduced in 2019 and implemented in 2020, ICHRA is a new type of health reimbursement arrangement (HRA) where employers give their employees money to buy their own health insurance plans. Employees can then shop for ACA qualified coverage on or off the Individual Marketplace, also known as the &ldquo;Exchange&rdquo;, and choose the plan that best suits their unique needs. Just like with a group plan, the dollars are tax-free for both sides and fulfill the ACA employer mandate for employers over 50 lives. But unlike traditional plans, ICHRAs expand control for the employer while giving employees more autonomy over plan selection and spend.</p>
+
+    <h3 style="font-size:19px;margin-top:52px;margin-bottom:8px" class="reveal">ICHRA by the numbers</h3>
+    <div class="stat-grid stat-grid--top reveal">
+      <div class="stat stat--poster"><div class="stat__value">10&ndash;15 million</div><div class="stat__label">Predicted to be enrolled in ICHRA by 2030</div></div>
+    </div>
+    <div class="stat-grid stat-grid--row">
+      <div class="stat"><div class="stat__value">29%</div><div class="stat__label">Growth from 2023 to 2024</div></div>
+      <div class="stat"><div class="stat__value">83%</div><div class="stat__label">Increased adoption in 2024 for employers over 200 employees</div></div>
+      <div class="stat"><div class="stat__value">61%</div><div class="stat__label">Of employees enrolled in a 2023 ICHRA/QSEHRA plan were under 45 &mdash; driving premiums down</div></div>
+    </div>
+
+    <h3 style="font-size:19px;margin-top:44px;margin-bottom:14px">Evolving ACA marketplace</h3>
+    <div class="stat-grid stat-grid--row4">
+      <div class="stat"><div class="stat__value">21M</div><div class="stat__label">Americans enrolled</div></div>
+      <div class="stat"><div class="stat__value">26%</div><div class="stat__label">Lower cost trend than employer-sponsored coverage, 2018&ndash;2024</div></div>
+      <div class="stat"><div class="stat__value">92%</div><div class="stat__label">Of Exchange members have access to 3+ insurers</div></div>
+      <div class="stat"><div class="stat__value">6</div><div class="stat__label">Average insurers participating per state</div></div>
+    </div>
+
+    <h3 style="font-size:19px;margin-top:44px;margin-bottom:14px">What differentiates ICHRA from a group plan?</h3>
+    <div class="table-wrap reveal">
+      <table>
+        <thead><tr><th></th><th class="col-ichra">ICHRA</th><th>Traditional group plan</th></tr></thead>
+        <tbody>
+          <tr><td>Participation requirement</td><td class="ichra-val">None</td><td>60% or more</td></tr>
+          <tr><td>Tax benefits</td><td class="ichra-val">Pre-tax</td><td>Pre-tax</td></tr>
+          <tr><td>Choice</td><td class="ichra-val">Employee selects plan</td><td>Employer selects plan</td></tr>
+          <tr><td>Average # of plan options</td><td class="ichra-val">50&ndash;100</td><td>1&ndash;3</td></tr>
+          <tr><td>Budget</td><td class="ichra-val">Determined by the employer</td><td>Subject to annual increases and/or high claims</td></tr>
+          <tr><td>Ownership</td><td class="ichra-val">Owned by employee (fully portable)</td><td>Owned by employer (coverage ends when employee terms)</td></tr>
+          <tr><td>Risk pool</td><td class="ichra-val">All Exchange participants</td><td>Employees and their families</td></tr>
+          <tr><td>Classing options</td><td class="ichra-val">11</td><td>N/A</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="foot">3&nbsp;&nbsp;Your A to Zorro Guide to All Things ICHRA</p>
+  </div>
+</section>
+
+<!-- 4 — IS ICHRA RIGHT FOR YOU -->
+<section class="sec" id="right4you">
+  <div class="sec-inner">
+    <div class="hero-grid reveal">
+      <div>
+        <h1 class="display">Is ICHRA right for you?</h1>
+        <p class="eyebrow" style="margin-top:10px">Evaluating ICHRA for your company.</p>
+      </div>
+      <div class="photo-wrap"><div class="photo"><img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&q=80" alt=""></div></div>
+    </div>
+    <p class="body-copy" style="margin-top:18px;max-width:72ch">As the ICHRA landscape continues to grow (29% in 2024 alone!), and carriers continue to build offerings dedicated to supporting group-like plans, more companies are being set up for success leveraging the ICHRA chassis.</p>
+    <p class="body-copy" style="max-width:72ch">In particular, we've seen the largest savings for companies with:</p>
+    <div class="pill-row reveal">
+      <span class="pill">High renewals</span><span class="pill">Multiple geographies</span>
+      <span class="pill">Cost-sensitive employees</span><span class="pill">Mix of salary/hourly workers</span>
+      <span class="pill">Risk fatigue</span><span class="pill">High employee turnover</span>
+    </div>
+
+    <h2 class="title" style="margin-top:48px;font-size:25px">What's all the hype about?</h2>
+    <p class="eyebrow">Employers are drawn to ICHRA</p>
+    <div class="grid-3 reveal">
+      <div class="card"><h4 style="font-size:16.5px;margin-bottom:10px">Cost control</h4><p class="body-copy" style="max-width:none">With ICHRA, employers can take back control over their budgets, determining how much to give each employee annually. And beyond that, ICHRA gives employers significant flexibility. They can choose their reimbursement amount, to whom they provide an ICHRA, and how much to offer based on 11 different classes.</p></div>
+      <div class="card"><h4 style="font-size:16.5px;margin-bottom:10px">Flexibility</h4><p class="body-copy" style="max-width:none">Whether aiming to increase (or decrease) enrollment, maintain costs, expand choice, or all of the above, ICHRA gives employers significant flexibility. They can choose their reimbursement amount, to whom they provide an ICHRA, and how much to offer based on 11 different classes.</p></div>
+      <div class="card"><h4 style="font-size:16.5px;margin-bottom:10px">Recruitment/retention</h4><p class="body-copy" style="max-width:none">Aside from the advantages that come with owning your own benefits budget and selection, offering an ICHRA to different classes of employees (like part-time) can give employers a competitive advantage when attracting and retaining a dedicated workforce.</p></div>
+    </div>
+
+    <p class="eyebrow" style="margin-top:28px">Employees are drawn to ICHRA</p>
+    <div class="grid-3 reveal">
+      <div class="card"><h4 style="font-size:16.5px;margin-bottom:10px">Personalization</h4><p class="body-copy" style="max-width:none">People are used to making their own choices when it comes to their personal health and wealth, so why should benefits be any different? ICHRA puts the employee back in control of their healthcare needs to choose not only their preferred insurance provider but also the appropriate level of coverage for them and their family.</p></div>
+      <div class="card"><h4 style="font-size:16.5px;margin-bottom:10px">Tax benefits</h4><p class="body-copy" style="max-width:none">While you could always give people money to pay for their health insurance, the ICHRA rules mean it no longer comes through as income, making it tax free.</p></div>
+      <div class="card"><h4 style="font-size:16.5px;margin-bottom:10px">Portability</h4><p class="body-copy" style="max-width:none">While traditional group plans are owned by the employer, ICHRAs are owned by the individual. This means that when an employee leaves, he or she can enjoy continuous coverage.</p></div>
+    </div>
+    <p class="foot">4&nbsp;&nbsp;Your A to Zorro Guide to All Things ICHRA</p>
+  </div>
+</section>
+
+<!-- 5 — STEP 1 -->
+<section class="sec" id="step1">
+  <div class="sec-inner">
+    <div class="hero-grid reveal">
+      <div>
+        <p class="eyebrow">How ICHRA works</p>
+        <h2 class="title">Step 1: Identify core objectives and how ICHRA supports them.</h2>
+        <p class="body-copy" style="max-width:none">The first step in your journey is to run the numbers on what ICHRA can do for your business. This is typically done using an employee census with basic details (employee dates of birth and zip codes) as well as your goals (like top-line budget).</p>
+      </div>
+      <div class="photo-wrap"><div class="photo"><img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=600&q=80" alt=""></div></div>
+    </div>
+
+    <div class="card card--dark accent-top reveal" style="margin-top:28px">
+      <div class="grid-2" style="align-items:center">
+        <div>
+          <p class="eyebrow eyebrow-ico"><img class="ico ico--sm" src="assets/icons/plans.svg" alt="">The Zorro Difference</p>
+          <p class="body-copy" style="max-width:none">Zorro's proprietary quoting tool ingests key details about your company and instantly delivers a detailed comparison of your current plan design versus a proposed ICHRA. Whether you wish to provide comparable coverage, increase to a higher tier plan, or simply remain compliant, you can quickly toggle to evaluate savings and determine fit.</p>
+        </div>
+        <div class="mock">
+          <h4>Current plan vs. Zorro's ICHRA recommendation</h4>
+          <div class="grid-2" style="gap:12px">
+            <div><div class="muted" style="font-size:11.5px">Current plan design</div><div class="mock-figure">$836,861<span style="font-size:12px;font-weight:400">/mo</span></div><div class="muted" style="font-size:11px">$1,264 avg. per employee</div></div>
+            <div><div style="font-size:11.5px;color:var(--z-iris)">Zorro</div><div class="mock-figure iris">$553,282<span style="font-size:12px;font-weight:400">/mo</span></div><div class="muted" style="font-size:11px">$783 avg. per employee</div></div>
+          </div>
+          <span class="pill" style="margin:14px 0;display:inline-block">Total savings 34%</span>
+          <div class="mock-row"><span>Deductible</span><span>$5,000 &nbsp;&rarr;&nbsp; <b class="status-ok">$5,900</b></span></div>
+          <div class="mock-row"><span>Max out-of-pocket</span><span>$7,500 &nbsp;&rarr;&nbsp; <b class="status-ok">$9,100</b></span></div>
+          <div class="mock-row"><span>Primary doctor</span><span>$25 &nbsp;&rarr;&nbsp; <b class="status-ok">$40</b></span></div>
+        </div>
+      </div>
+    </div>
+    <p class="foot">5&nbsp;&nbsp;Your A to Zorro Guide to All Things ICHRA</p>
+  </div>
+</section>
+
+<!-- 6 — STEP 2 -->
+<section class="sec" id="step2">
+  <div class="sec-inner">
+    <p class="eyebrow">How ICHRA works</p>
+    <h2 class="title">Step 2: Determine how to allocate funds (aka. your allowance model).</h2>
+    <div class="grid-2">
+      <p class="body-copy" style="max-width:none">This is where heavy broker involvement or an ICHRA provider with sophisticated modeling (or both!) can make all the difference. Essentially, you are deciding how to allocate funds across your employees.</p>
+      <p class="body-copy" style="max-width:none">There is no maximum allowance for employees, but if you wish to avoid penalties, a minimum allowance applies &mdash; this is because allowances must meet affordability criteria, based on the Low Cost Silver plan in an employee's home rating area. This is the same requirement as in group plans, where the employee contribution to the overall premium cannot exceed certain limits.</p>
+    </div>
+
+    <div class="card card--dark accent-top reveal" style="margin-top:28px">
+      <div class="grid-2" style="align-items:start">
+        <div>
+          <p class="eyebrow eyebrow-ico"><img class="ico ico--sm" src="assets/icons/ai-security.svg" alt="">The Zorro Difference</p>
+          <p class="body-copy" style="max-width:none">At Zorro, we leverage a smart, AI-driven companion to help you optimize your benefits. You tell us your priorities, and our data analytics team will figure out the best model for you. For example, you can:</p>
+          <ul class="dot-list" style="margin-top:16px">
+            <li><img class="ico" src="assets/icons/check.svg" alt=""><span>Decide on a top-line budget and have us optimize it across all employees</span></li>
+            <li><img class="ico" src="assets/icons/check.svg" alt=""><span>Set a contribution level similar to a traditional group plan employer contribution</span></li>
+            <li><img class="ico" src="assets/icons/check.svg" alt=""><span>Share any other objective or constraint and have us build a custom allowance model for you</span></li>
+          </ul>
+        </div>
+        <div class="mock" style="background:rgba(255,255,255,.05);color:#fff">
+          <h4 style="color:#fff">ICHRA classes</h4>
+          <p style="font-size:12.5px;color:#C7CBD6;margin-bottom:12px">11 classes let employers allocate different levels of benefits based on legitimate job-based criteria.</p>
+          <div class="pill-row" style="margin:0">
+            <span class="pill pill--onDark">Full-time employees</span><span class="pill pill--onDark">Part-time employees</span>
+            <span class="pill pill--onDark">Seasonal employees</span><span class="pill pill--onDark">Collective bargaining agreement</span>
+            <span class="pill pill--onDark">Waiting period not satisfied</span><span class="pill pill--onDark">Non-resident aliens, no US income</span>
+            <span class="pill pill--onDark">Same rating area</span><span class="pill pill--onDark">Salaried employees</span>
+            <span class="pill pill--onDark">Non-salaried employees</span><span class="pill pill--onDark">Staffing firm temporary employees</span>
+            <span class="pill pill--onDark">Combination of two+ classes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="foot">6&nbsp;&nbsp;Your A to Zorro Guide to All Things ICHRA</p>
+  </div>
+</section>
+
+<!-- 7 — STEP 3 -->
+<section class="sec" id="step3">
+  <div class="sec-inner">
+    <div class="hero-grid reveal">
+      <div>
+        <p class="eyebrow">How ICHRA works</p>
+        <h2 class="title">Step 3: Communicate to your employees.</h2>
+        <p class="body-copy" style="max-width:none">Change is easy, said no one ever. But the key to successful change management is communication. Offering an ICHRA triggers a Special Enrollment Period for your employees, so you can switch to an ICHRA and begin communicating at any time. Just note that ICHRA rules say you should provide 90 days' notice, allowing time to educate your employees on any changes ahead. However, there is also a legal component to this communication stating that it must include:</p>
+      </div>
+      <div class="photo-wrap"><div class="photo"><img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&q=80" alt=""></div></div>
+    </div>
+    <ul class="dot-list" style="margin:8px 0 16px">
+      <li><img class="ico" src="assets/icons/check.svg" alt=""><span>Reimbursement amounts</span></li>
+      <li><img class="ico" src="assets/icons/check.svg" alt=""><span>Instructions for how to select coverage</span></li>
+      <li><img class="ico" src="assets/icons/check.svg" alt=""><span>Your ICHRA start date and enrollment deadlines</span></li>
+    </ul>
+    <p class="body-copy" style="max-width:72ch">And because not everyone is an expert on health insurance, it is also important to support employees with ongoing education to maintain comfort with the plan. The right partner will make this feel seamless.</p>
+
+    <div class="card card--dark accent-top reveal" style="margin-top:20px">
+      <div class="grid-2" style="align-items:center">
+        <div>
+          <p class="eyebrow eyebrow-ico"><img class="ico ico--sm" src="assets/icons/support.svg" alt="">The Zorro Difference</p>
+          <p class="body-copy" style="max-width:none">At Zorro, we automatically generate all communications directly from our platform. This ensures employees stay well informed and receive appropriate information depending on their enrollment, engagement, and stipend.</p>
+        </div>
+        <div class="mock">
+          <ul>
+            <li><img class="ico ico--sm" src="assets/icons/check.svg" alt="">Enrollment confirmation</li>
+            <li><img class="ico ico--sm" src="assets/icons/check.svg" alt="">Stipend summary</li>
+            <li><img class="ico ico--sm" src="assets/icons/check.svg" alt="">Coverage start reminder</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <p class="foot">7&nbsp;&nbsp;Your A to Zorro Guide to All Things ICHRA</p>
+  </div>
+</section>
+
+<!-- 8 — STEP 4 -->
+<section class="sec" id="step4">
+  <div class="sec-inner">
+    <p class="eyebrow">How ICHRA works</p>
+    <h2 class="title">Step 4: Give employees the tools to support smart plan selection.</h2>
+    <p class="body-copy" style="max-width:72ch">We already know your employees have diverse needs, and plan selection is the time when they can voice those needs and select what works best for them. According to the 2022 and 2023 McKinsey Consumer Health Insights Surveys, 44% of healthcare buyers research providers before scheduling an appointment and 45% look into in-network costs before selecting a plan. Once it's time for enrollment, every state has its own way of doing things &mdash; some are handled entirely by your ICHRA administrator, others need some employee involvement. Either way, this is covered during onboarding.</p>
+
+    <div class="card card--dark accent-top reveal" style="margin-top:20px">
+      <div class="grid-2" style="align-items:start">
+        <div>
+          <p class="eyebrow eyebrow-ico"><img class="ico ico--sm" src="assets/icons/check.svg" alt="">The Zorro Difference</p>
+          <p class="body-copy" style="max-width:none">Plan selection is one of the many ways in which ICHRA providers work a bit differently. At Zorro, we've built a robust recommendation engine that ingests an employee's personal information &mdash; doctors, medications, family preferences, budget &mdash; and suggests plans that best meet their needs. Dedicated customer support specialists help ensure a smooth enrollment.</p>
+        </div>
+        <div class="mock">
+          <h4>What would you like to include in your plan?</h4>
+          <ul>
+            <li><img class="ico ico--sm" src="assets/icons/check.svg" alt="">Keeping my doctors</li>
+            <li><img class="ico ico--sm" src="assets/icons/check.svg" alt="">Having my regular medications covered</li>
+            <li><img class="ico ico--sm" src="assets/icons/check.svg" alt="">Minimizing my all-in costs on a typical year</li>
+            <li><img class="ico ico--sm" src="assets/icons/check.svg" alt="">Reducing my risk of large, unexpected expenses</li>
+            <li><img class="ico ico--sm" src="assets/icons/check.svg" alt="">Seeing specialists without referrals</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <p class="foot">8&nbsp;&nbsp;Your A to Zorro Guide to All Things ICHRA</p>
+  </div>
+</section>
+
+<!-- 9 — STEP 5 -->
+<section class="sec" id="step5">
+  <div class="sec-inner">
+    <div class="hero-grid reveal">
+      <div>
+        <p class="eyebrow">How ICHRA works</p>
+        <h2 class="title">Step 5: Set up payment processing.</h2>
+        <p class="body-copy" style="max-width:none">The traditional HRA was defined by a reimbursement structure where employees submitted healthcare expenses for approval and were then reimbursed by their employer. Many modern ICHRA providers have simplified this: employee contributions are payroll deducted and deposited into the company account, the provider withdraws the full monthly premium from the employer, then pays the individual insurance carriers on behalf of each enrolled employee.</p>
+      </div>
+      <div class="photo-wrap"><div class="photo"><img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&q=80" alt=""></div></div>
+    </div>
+
+    <div class="card card--dark accent-top reveal" style="margin-top:28px">
+      <p class="eyebrow eyebrow-ico"><img class="ico ico--sm" src="assets/icons/pay-card.svg" alt="">The Zorro Difference</p>
+      <p class="body-copy" style="max-width:none">Zorro Pay mimics the group experience through a seamless payroll deduction and carrier payment process.</p>
+      <div class="flow reveal">
+        <div class="flow__node"><div class="flow__dot"></div><span>Employer</span></div>
+        <div class="flow__node flow__node--mid"><div class="flow__dot"></div><span>Zorro payment platform</span></div>
+        <div class="flow__node"><div class="flow__dot"></div><span>Employees</span></div>
+      </div>
+    </div>
+    <p class="foot">9&nbsp;&nbsp;Your A to Zorro Guide to All Things ICHRA</p>
+  </div>
+</section>
+
+<!-- 10 — STEP 6 -->
+<section class="sec" id="step6">
+  <div class="sec-inner">
+    <p class="eyebrow">How ICHRA works</p>
+    <h2 class="title">Step 6: Administer your plan.</h2>
+    <p class="body-copy" style="max-width:72ch">By this point, your employees are set up with their new plans and you've officially made the switch to using an ICHRA. But as with any health plan, you'll still want to ensure things are working as expected &mdash; accurate data on employee enrollment and payments, and anything you need for annual filings, without having to devote hours to navigating complex claims data, unexpected bills, and erroneous information.</p>
+
+    <div class="card card--dark accent-top reveal" style="margin-top:20px">
+      <div class="grid-2" style="align-items:start">
+        <div>
+          <p class="eyebrow eyebrow-ico"><img class="ico ico--sm" src="assets/icons/manage.svg" alt="">The Zorro Difference</p>
+          <p class="body-copy" style="max-width:none">Zorro delivers full transparency into what's happening with your plan, including:</p>
+          <ul class="dot-list" style="margin-top:14px">
+            <li><img class="ico" src="assets/icons/check.svg" alt=""><span>Enrollment &mdash; who's in, who's not</span></li>
+            <li><img class="ico" src="assets/icons/check.svg" alt=""><span>Deductions &mdash; confirmation everyone is getting paid as planned</span></li>
+            <li><img class="ico" src="assets/icons/check.svg" alt=""><span>Compliance &mdash; all the materials for ACA filings</span></li>
+            <li><img class="ico" src="assets/icons/check.svg" alt=""><span>New employee onboarding &mdash; ICHRAs for everyone!</span></li>
+          </ul>
+        </div>
+        <div class="mock">
+          <h4>Employee roster</h4>
+          <table>
+            <thead><tr><th>Name</th><th>Coverage</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>John Black</td><td>Medical</td><td class="status-ok">Eligible &mdash; employed</td></tr>
+              <tr><td>Amanda Smith</td><td>Medical</td><td class="status-ok">Eligible &mdash; employed</td></tr>
+              <tr><td>James White</td><td>Dental</td><td class="status-no">Ineligible &mdash; terminated</td></tr>
+              <tr><td>Sarah Lee</td><td>Medical</td><td class="status-ok">Eligible &mdash; employed</td></tr>
+              <tr><td>Emily Johnson</td><td>Vision</td><td class="status-ok">Eligible &mdash; employed</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <p class="foot">10&nbsp;&nbsp;Your A to Zorro Guide to All Things ICHRA</p>
+  </div>
+</section>
+
+<!-- 11 — IDENTIFYING THE RIGHT ICHRA PROVIDER -->
+<section class="sec" id="identify">
+  <div class="sec-inner">
+    <div class="hero-grid reveal">
+      <div>
+        <h1 class="display">Identifying the right ICHRA provider</h1>
+        <p class="eyebrow" style="margin-top:10px">We have the how, what about the who?</p>
+      </div>
+      <div class="photo-wrap"><div class="photo"><img src="https://images.unsplash.com/photo-1483721310020-03333e577078?w=600&q=80" alt=""></div></div>
+    </div>
+    <p class="body-copy" style="margin-top:18px;max-width:72ch">OK, fine, we're biased. We live and breathe ICHRA here at Zorro and have an opinion or two on what makes a good partner. If you're curious about our thoughts on selecting the right ICHRA provider, here are the defining features we wouldn't live without.</p>
+
+    <div class="feat-list reveal" style="margin-top:24px">
+      <ul class="dot-list">
+        <li><img class="ico" src="assets/icons/check.svg" alt=""><div><b>Clear onboarding process</b><span>You deserve a friction-free migration from a group plan to ICHRA. An ideal provider will help you set objectives, outline your budget and allowance models, auto-generate your plan documents, and assist with communication.</span></div></li>
+        <li><img class="ico" src="assets/icons/pay-card.svg" alt=""><div><b>Simplified payments</b><span>Not every employee has the means to lay out payments and wait for repayment. Find a partner who offers a payroll-deducted payment solution for a more &lsquo;group-like&rsquo; experience.</span></div></li>
+        <li><img class="ico" src="assets/icons/plans.svg" alt=""><div><b>Data-driven decision support</b><span>A robust recommendation engine is a must &mdash; your employees shouldn't have to become insurance experts to pick a plan.</span></div></li>
+      </ul>
+      <ul class="dot-list">
+        <li><img class="ico" src="assets/icons/manage.svg" alt=""><div><b>Seamless administration</b><span>Stay in the driver's seat on everything from enrollments to hires and terminations to monitoring payroll deductions. Transparent reporting should offer full insight into what's going on with your plan.</span></div></li>
+        <li><img class="ico" src="assets/icons/support.svg" alt=""><div><b>High-touch customer service</b><span>Dedicated customer support is imperative so you and your employees always have a real-life human to contact &mdash; for questions on enrollment, administration, compliance, and more.</span></div></li>
+        <li><img class="ico" src="assets/icons/ai-security.svg" alt=""><div><b>Compliance expertise</b><span>Make sure your ICHRA design is compliant with federal regulations, with access to the data necessary for 1094/1095 ACA reporting and PCORI filings.</span></div></li>
+      </ul>
+    </div>
+    <p class="foot">11&nbsp;&nbsp;Your A to Zorro Guide to All Things ICHRA</p>
+  </div>
+</section>
+
+<!-- 12 — WHAT ABOUT -->
+<section class="sec" id="whatabout">
+  <div class="sec-inner">
+    <h1 class="display">What about&hellip;? Your questions and misconceptions, addressed.</h1>
+    <p class="eyebrow" style="margin-top:14px">The rumor mill</p>
+    <p class="body-copy" style="max-width:72ch">As with anything new, it's difficult to grasp the full extent of opportunities and challenges without seeing it for yourself. Good news &mdash; we've been around the block! Here are some of the most common misconceptions we hear, along with our thoughts.</p>
+
+    <div class="table-wrap misc-table reveal" style="margin-top:20px">
+      <table>
+        <thead><tr><th>Misconception</th><th>Facts</th></tr></thead>
+        <tbody>
+          <tr><td>Healthcare is too complicated&hellip; employees won't be able to find a plan on their own.</td><td>People buy their own car, life, and home insurance because they know their unique needs best.</td></tr>
+          <tr><td>People will just buy cheap Bronze plans and have catastrophic coverage.</td><td>2023 employee plan choices: Platinum 4% &middot; Gold 33% &middot; Silver 28% &middot; Bronze 35%.</td></tr>
+          <tr><td>I won't be able to recruit great talent if I offer an ICHRA plan.</td><td>ICHRA can be a recruiting tool &mdash; employees are drawn to customization and portability, and savings can fund other benefits.</td></tr>
+          <tr><td>There's no way my employees can pay their own premium and wait to be reimbursed.</td><td>They no longer have to &mdash; tech-forward platforms like Zorro include payment solutions that eliminate the need for reimbursements.</td></tr>
+          <tr><td>ICHRA is only a good fit for small employers.</td><td>In 2024, there was an 83% uptick among employers with over 200 employees.</td></tr>
+          <tr><td>Exchange plans aren't as good as group plans.</td><td>Exchange plans range from PPOs to HMOs to HDHPs, offering coverage from Bronze to Platinum.</td></tr>
+          <tr><td>ICHRA is difficult.</td><td>It can be &mdash; but with the right provider, admin is streamlined and the savings are well worth the learning curve.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="foot">12&nbsp;&nbsp;Your A to Zorro Guide to All Things ICHRA</p>
+  </div>
+</section>
+
+<!-- 13 — FAQ -->
+<section class="sec" id="faq">
+  <div class="sec-inner">
+    <h1 class="display">Wait, I still have questions&hellip;</h1>
+    <div class="faq-grid reveal" style="margin-top:24px">
+      <div class="faq-card"><b>Q: Can I combine ICHRA with a traditional group plan?</b><span>Yes and no. Employers can offer a traditional group plan to one class of employees and an ICHRA to another. But each class can only have one offering &mdash; employers cannot let employees in the same class choose between a group plan or an ICHRA.</span></div>
+      <div class="faq-card"><b>Q: Do I have to offer an ICHRA to all employees?</b><span>Employers can decide which employees are eligible for ICHRA by selecting specific classes to offer it to. This can reward some classes more generously, even the playing field across geographies, or boost recruitment of part-timers.</span></div>
+      <div class="faq-card"><b>Q: Isn't it unfair if I give more money to some employees based on their state, age, or otherwise?</b><span>Actually, quite the opposite! Because ICHRA plans are priced differently in each state, for each age band, the idea is to give equal buying power to each employee.</span></div>
+      <div class="faq-card"><b>Q: My company is committed to DEIB &mdash; how does ICHRA help support that commitment?</b><span>Healthcare inequities have been well documented, with 60% of African American adults and 65% of Hispanic adults struggling to afford healthcare vs. 39% of White adults. ICHRA gives employees control over spend so they can seek out coverage they can actually afford.</span></div>
+      <div class="faq-card"><b>Q: Can I choose which individual policies to offer my employees, or encourage certain plans over others?</b><span>For both questions, the answer is a resounding no. As part of the ICHRA ruling, no one may influence which health insurance an employee chooses. Recommendation engines can guide, but must stay neutral in intent.</span></div>
+      <div class="faq-card"><b>Q: This guide was helpful&hellip; but now what?</b><span>That's a question for you! We truly believe ICHRA is the future of employee benefits, and we're not alone &mdash; carriers, brokers, and providers are all investing here. If you're sick of being at the mercy of open enrollment, we encourage you to explore ICHRA further.</span></div>
+    </div>
+    <div class="cta-band accent-top reveal">
+      <b>Have additional questions?</b>
+      <span>Contact <a href="mailto:sales@myzorro.co">sales@myzorro.co</a> and we'd be happy to dig into what ICHRA can mean for you!</span>
+    </div>
+    <p class="foot">13&nbsp;&nbsp;Your A to Zorro Guide to All Things ICHRA</p>
+  </div>
+</section>
+
+<!-- BACK COVER -->
+<section class="sec sec--dark" id="thanks">
+  <div class="ghost ghost--a"></div><div class="ghost ghost--b"></div>
+  <div class="sec-inner cover-inner">
+    <div class="cover-grid">
+      <div class="cover-copy">
+        <img class="logo" src="assets/img/zorro-logo-full.svg" alt="Zorro">
+        <h1><span class="accent">Thank you</span></h1>
+        <div class="cover-rule"></div>
+        <p style="margin-top:8px"><a href="mailto:sales@myzorro.co" style="font-size:15px">sales@myzorro.co</a></p>
+      </div>
+      <div class="cover-photo accent-top"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&q=80" alt=""></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // decorative scroll-spy for the side dot rail only — no layout logic
+  var links=[].slice.call(document.querySelectorAll('.jumpnav a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+  window.addEventListener('scroll',function(){
+    var y=window.scrollY+window.innerHeight/2;
+    for(var i=secs.length-1;i>=0;i--){
+      if(secs[i] && secs[i].offsetTop<=y){
+        links.forEach(function(l){l.classList.remove('on')});
+        links[i].classList.add('on');
+        break;
+      }
+    }
+  },{passive:true});
+
+  // Scroll reveal — one continuous free-scrolling page (no snap, no pagination-lock), the same
+  // philosophy as the real proposal deck's per-section reveal but implemented with the native
+  // IntersectionObserver API rather than pulling in GSAP+ScrollTrigger (~115KB min) for a fade+lift.
+  // Cover is excluded on purpose — the first section should paint immediately, not wait on JS.
+  if('IntersectionObserver' in window){
+    var targets=[].slice.call(document.querySelectorAll('.reveal'));
+    targets.forEach(function(el,i){el.style.setProperty('--d',(i%4)*0.06+'s')});
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){entry.target.classList.add('in');io.unobserve(entry.target);}
+      });
+    },{root:null,rootMargin:'0px 0px -10% 0px',threshold:.12});
+    targets.forEach(function(el){io.observe(el)});
+  }else{
+    // no IO support → just show everything, no animation
+    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in')});
+  }
+</script>
+</body>
+</html>
